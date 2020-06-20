@@ -1,0 +1,561 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     21718,        553]
+NotebookOptionsPosition[     20116,        523]
+NotebookOutlinePosition[     20458,        538]
+CellTagsIndexPosition[     20415,        535]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"evenList", "[", 
+    RowBox[{"{", "}"}], "]"}], ":=", 
+   RowBox[{"{", "}"}]}], ";", " ", 
+  RowBox[{
+   RowBox[{"evenList", "[", "l_", "]"}], " ", ":=", " ", 
+   RowBox[{"Downsample", "[", 
+    RowBox[{"l", ",", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dropl", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "n_"}], "]"}], ":=", 
+   RowBox[{"{", "}"}]}], ";", " ", 
+  RowBox[{
+   RowBox[{"dropl", "[", 
+    RowBox[{"l_", ",", "n_"}], "]"}], ":=", 
+   RowBox[{"Drop", "[", 
+    RowBox[{"l", ",", "n"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"evaluatelPol", "[", 
+    RowBox[{"l_", ",", "n_"}], "]"}], " ", ":=", " ", 
+   RowBox[{"FromDigits", "[", 
+    RowBox[{
+     RowBox[{"Reverse", "[", "l", "]"}], ",", "n"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"makePolynomial", "[", "l_", "]"}], " ", ":=", " ", 
+   RowBox[{"evaluatelPol", "[", 
+    RowBox[{"l", ",", "x"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"makeEvenPol", "[", "l_", "]"}], ":=", 
+   RowBox[{"makePolynomial", "[", 
+    RowBox[{"evenList", "[", "l", "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fourierPoints", "[", 
+    RowBox[{"w_", ",", "n_"}], "]"}], ":=", 
+   RowBox[{"NestList", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "*", "w"}], "&"}], ",", "1", ",", 
+     RowBox[{"n", "-", "1"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"doubleList", "[", "l_", "]"}], ":=", 
+   RowBox[{"Catenate", "[", 
+    RowBox[{"{", 
+     RowBox[{"l", ",", "l"}], "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fun", "[", 
+    RowBox[{"a_", ",", "x_", ",", "b_"}], "]"}], " ", ":=", " ", 
+   RowBox[{"a", "+", 
+    RowBox[{"x", "*", "b"}]}]}], ";"}]}], "Input",
+ CellLabel->"In[1]:=",ExpressionUUID->"a0b41ce7-ecec-4a1a-8255-6a88be7c5dfd"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"TRFourier", "[", 
+    RowBox[{"1", ",", "w_", ",", "p_"}], "]"}], ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{"evaluatelPol", "[", 
+     RowBox[{
+      RowBox[{"CoefficientList", "[", 
+       RowBox[{"p", ",", "x"}], "]"}], ",", "1"}], "]"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"TRFourier", "[", 
+    RowBox[{"n_", ",", " ", "w_", ",", " ", "p_"}], "]"}], ":=", 
+   RowBox[{"(", "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"a", ",", "b", ",", " ", "retA", ",", " ", "retB"}], "}"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"pList", " ", "=", " ", 
+        RowBox[{"CoefficientList", "[", 
+         RowBox[{"p", ",", "x"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"a", " ", "=", " ", 
+        RowBox[{"makeEvenPol", "[", "pList", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"b", " ", "=", " ", 
+        RowBox[{"makeEvenPol", "[", 
+         RowBox[{"dropl", "[", 
+          RowBox[{"pList", ",", "1"}], "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retA", " ", "=", " ", 
+        RowBox[{"TRFourier", "[", 
+         RowBox[{
+          RowBox[{"n", "/", "2"}], ",", 
+          RowBox[{"w", "^", "2"}], ",", "a"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retB", " ", "=", " ", 
+        RowBox[{"TRFourier", "[", 
+         RowBox[{
+          RowBox[{"n", "/", "2"}], ",", 
+          RowBox[{"w", "^", "2"}], ",", "b"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"fun", "[", 
+        RowBox[{
+         RowBox[{"doubleList", "[", "retA", "]"}], ",", 
+         RowBox[{"fourierPoints", "[", 
+          RowBox[{"w", ",", "n"}], "]"}], ",", 
+         RowBox[{"doubleList", "[", "retB", "]"}]}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ")"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[9]:=",ExpressionUUID->"4f228da4-7960-4738-93f0-1fa6cf21c2a8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"isNRoot", "[", 
+    RowBox[{"w_", ",", "n_", ",", "p_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Mod", "[", 
+     RowBox[{
+      RowBox[{"w", "^", "n"}], ",", "p"}], "]"}], "\[Equal]", "1"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"onlyOneRoot", "[", 
+    RowBox[{"w_", ",", "n_", ",", "p_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Length", "[", 
+     RowBox[{"Select", "[", 
+      RowBox[{
+       RowBox[{"Mod", "[", 
+        RowBox[{
+         RowBox[{"fourierPoints", "[", 
+          RowBox[{"w", ",", "n"}], "]"}], ",", "p"}], "]"}], ",", 
+       RowBox[{
+        RowBox[{"#", "\[Equal]", "1"}], "&"}]}], "]"}], "]"}], "\[Equal]", 
+    "1"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"root2nZp", "[", 
+    RowBox[{"n_", ",", "p_"}], "]"}], ":=", 
+   RowBox[{"Select", "[", 
+    RowBox[{
+     RowBox[{"Range", "[", 
+      RowBox[{"p", "-", "1"}], "]"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"isNRoot", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"2", "^", "n"}], ",", "p"}], "]"}], "&&", " ", 
+       RowBox[{"onlyOneRoot", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"2", "^", "n"}], ",", "p"}], "]"}]}], "&"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[11]:=",ExpressionUUID->"a08ab046-ccaa-4d10-8368-d60b51249e7e"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"vandermondeMatrix", "[", 
+    RowBox[{"w_", ",", " ", "n_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"fourierPoints", "[", 
+       RowBox[{"#", ",", "n"}], "]"}], "&"}], ",", 
+     RowBox[{"fourierPoints", "[", 
+      RowBox[{"w", ",", "n"}], "]"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.797785036533365*^9, 3.7977850736705112`*^9}, {
+  3.797785122580227*^9, 3.7977851313460674`*^9}, {3.7977851768065624`*^9, 
+  3.7977852419226356`*^9}, {3.7977853036174498`*^9, 3.797785309169705*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"a538e5f1-bad0-40a4-99fe-b13149c5f1b2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"TRFMultiplication", "[", 
+    RowBox[{"p_", ",", "a_", ",", "n_", ",", "b_", ",", "m_"}], "]"}], ":=", 
+   RowBox[{"(", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"pot", " ", "=", " ", 
+      RowBox[{"BitLength", "[", 
+       RowBox[{"n", "+", "m"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"poss", " ", "=", " ", 
+      RowBox[{"root2nZp", "[", 
+       RowBox[{"pot", ",", "p"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"pot", " ", "=", " ", 
+      RowBox[{"2", "^", "pot"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"poss", "\[Equal]", 
+        RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<No existe raiz primitiva \>\"", ",", "pot", ",", 
+          "\"\<-esima de la unidad en Zp\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "false", "]"}]}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"w", " ", "=", " ", 
+      RowBox[{"poss", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+      "\"\<Nuestra raiz primitiva \>\"", ",", "pot", ",", 
+       "\"\<-esima es: \>\"", ",", "w"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"trfA", " ", "=", " ", 
+      RowBox[{"Mod", "[", 
+       RowBox[{
+        RowBox[{"TRFourier", "[", 
+         RowBox[{"pot", ",", "w", ",", "a"}], "]"}], ",", "p"}], "]"}]}], ";",
+      "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Los puntos de la TRF en a(x) son:\>\"", ",", " ", "trfA"}],
+       "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"trfB", " ", "=", " ", 
+      RowBox[{"Mod", "[", 
+       RowBox[{
+        RowBox[{"TRFourier", "[", 
+         RowBox[{"pot", ",", "w", ",", "b"}], "]"}], ",", "p"}], "]"}]}], ";",
+      "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Los puntos de la TRF en b(x) son:\>\"", ",", " ", "trfB"}],
+       "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newP", " ", "=", " ", 
+      RowBox[{"Mod", "[", 
+       RowBox[{
+        RowBox[{"trfA", "*", "trfB"}], ",", "p"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+      "\"\<El producto de estas dos listas es:\>\"", ",", " ", "newP"}], 
+      "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"invW", " ", "=", " ", 
+      RowBox[{"ModularInverse", "[", 
+       RowBox[{"w", ",", "p"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+      "\"\<La matriz de Vandermonde de \>\"", ",", " ", "w", ",", " ", 
+       "\"\< es:\>\"", ",", " ", 
+       RowBox[{"MatrixForm", "[", 
+        RowBox[{"Mod", "[", 
+         RowBox[{
+          RowBox[{"vandermondeMatrix", "[", 
+           RowBox[{"w", ",", "pot"}], "]"}], ",", "p"}], "]"}], "]"}]}], " ", 
+      "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+      "\"\<El inverso de \>\"", ",", "w", ",", " ", "\"\< en Zp es: \>\"", 
+       ",", " ", "invW"}], " ", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<La matriz inversa es:\>\"", ",", " ", 
+       RowBox[{"MatrixForm", "[", 
+        RowBox[{"Mod", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ModularInverse", "[", 
+            RowBox[{"pot", ",", "p"}], "]"}], "*", 
+           RowBox[{"vandermondeMatrix", "[", 
+            RowBox[{"invW", ",", "pot"}], "]"}]}], ",", "p"}], "]"}], "]"}]}],
+       " ", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ans", " ", "=", " ", 
+      RowBox[{"Mod", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"ModularInverse", "[", 
+          RowBox[{"pot", ",", "p"}], "]"}], "*", 
+         RowBox[{"TRFourier", "[", 
+          RowBox[{"pot", ",", "invW", ",", 
+           RowBox[{"makePolynomial", "[", "newP", "]"}]}], "]"}]}], ",", 
+        "p"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<El polinomio multiplicado es: \>\"", ",", " ", 
+       RowBox[{"Expand", "[", 
+        RowBox[{"makePolynomial", "[", "ans", "]"}], "]"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"makePolynomial", "[", "ans", "]"}]}], "\[IndentingNewLine]", 
+    ")"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7977853733853683`*^9, 3.797785390088436*^9}, {
+  3.797785454022711*^9, 3.797785485086379*^9}, {3.7977856407786417`*^9, 
+  3.7977858922651105`*^9}, {3.7977859611551204`*^9, 3.7977863359796076`*^9}, {
+  3.797786772361847*^9, 3.7977867882858176`*^9}, {3.79778686140333*^9, 
+  3.7977868807849827`*^9}, {3.7977869881392546`*^9, 3.797787254035836*^9}, {
+  3.7977872848083477`*^9, 3.7977873406598577`*^9}, {3.797787371560165*^9, 
+  3.797787394997198*^9}, {3.797787502613741*^9, 3.797787567478156*^9}},
+ CellLabel->"In[67]:=",ExpressionUUID->"598330f4-1ce3-4b69-9317-170e9cf00ccf"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TRFMultiplication", "[", 
+   RowBox[{"17", ",", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"x", "^", "3"}]}], "+", 
+     RowBox[{"3", "x"}], "+", "1"}], ",", "3", ",", 
+    StyleBox[
+     RowBox[{
+      RowBox[{"2", 
+       RowBox[{"x", "^", "4"}]}], "-", 
+      RowBox[{"3", 
+       RowBox[{"x", "^", "3"}]}], "-", 
+      RowBox[{"2", 
+       RowBox[{"x", "^", "2"}]}], "+", "x", "+", "1"}],
+     FontWeight->"Plain"], ",", "4"}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.797786341221794*^9, 3.7977863426092224`*^9}, {
+   3.797786372983303*^9, 3.7977863806469526`*^9}, {3.7977867136489596`*^9, 
+   3.7977867519510183`*^9}, 3.7977873804665704`*^9, {3.7977877438570127`*^9, 
+   3.797787760214055*^9}},
+ CellLabel->"In[69]:=",ExpressionUUID->"e4eddb0c-0bb5-4721-9f27-bf07163fd278"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Nuestra raiz primitiva \"\>", "\[InvisibleSpace]", "8", 
+   "\[InvisibleSpace]", "\<\"-esima es: \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["Nuestra raiz primitiva ", 8, "-esima es: ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.7977877610732045`*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"11347834-27ec-4fea-bb7d-50b002ae0be5"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Los puntos de la TRF en a(x) son:\"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "16", ",", "0", ",", "6", ",", "16", ",", "3", ",", "2", ",", 
+     "13"}], "}"}]}],
+  SequenceForm[
+  "Los puntos de la TRF en a(x) son:", {3, 16, 0, 6, 16, 3, 2, 13}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.7977877610888295`*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"f87bbce9-db4c-4405-9661-29ac404e6af9"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Los puntos de la TRF en b(x) son:\"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "16", ",", "3", ",", "4", ",", "9", ",", "3", ",", "13", ",", "6", ",", 
+     "5"}], "}"}]}],
+  SequenceForm[
+  "Los puntos de la TRF en b(x) son:", {16, 3, 4, 9, 3, 13, 6, 5}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.7977877610888295`*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"cf8a756b-8154-41d9-a1ec-6f02341f392f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"El producto de estas dos listas es:\"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "14", ",", "14", ",", "0", ",", "3", ",", "14", ",", "5", ",", "12", ",", 
+     "14"}], "}"}]}],
+  SequenceForm[
+  "El producto de estas dos listas es:", {14, 14, 0, 3, 14, 5, 12, 14}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.7977877610888295`*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"140b1ba8-668b-4b61-885d-e0bcb0effe3b"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"La matriz de Vandermonde de \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\" es:\"\>", "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{"(", "\[NoBreak]", GridBox[{
+       {"1", "1", "1", "1", "1", "1", "1", "1"},
+       {"1", "2", "4", "8", "16", "15", "13", "9"},
+       {"1", "4", "16", "13", "1", "4", "16", "13"},
+       {"1", "8", "13", "2", "16", "9", "4", "15"},
+       {"1", "16", "1", "16", "1", "16", "1", "16"},
+       {"1", "15", "4", "9", "16", "2", "13", "8"},
+       {"1", "13", "16", "4", "1", "13", "16", "4"},
+       {"1", "9", "13", "15", "16", "8", "4", "2"}
+      },
+      GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+      GridBoxSpacings->{"Columns" -> {
+          Offset[0.27999999999999997`], {
+           Offset[0.7]}, 
+          Offset[0.27999999999999997`]}, "Rows" -> {
+          Offset[0.2], {
+           Offset[0.4]}, 
+          Offset[0.2]}}], "\[NoBreak]", ")"}],
+    Function[BoxForm`e$, 
+     MatrixForm[BoxForm`e$]]]}],
+  SequenceForm["La matriz de Vandermonde de ", 2, " es:", 
+   MatrixForm[{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 2, 4, 8, 16, 15, 13, 9}, {1, 4, 
+    16, 13, 1, 4, 16, 13}, {1, 8, 13, 2, 16, 9, 4, 15}, {1, 16, 1, 16, 1, 16, 
+    1, 16}, {1, 15, 4, 9, 16, 2, 13, 8}, {1, 13, 16, 4, 1, 13, 16, 4}, {1, 9, 
+    13, 15, 16, 8, 4, 2}}]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.797787761104454*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"fad4b10a-aa27-4670-8a09-00e4470aed79"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"El inverso de \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\" en Zp es: \"\>", "\[InvisibleSpace]", "9"}],
+  SequenceForm["El inverso de ", 2, " en Zp es: ", 9],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.797787761104454*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"3b26bf36-4a04-4385-866f-4465df7a7424"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"La matriz inversa es:\"\>", "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{"(", "\[NoBreak]", GridBox[{
+       {"15", "15", "15", "15", "15", "15", "15", "15"},
+       {"15", "16", "8", "4", "2", "1", "9", "13"},
+       {"15", "8", "2", "9", "15", "8", "2", "9"},
+       {"15", "4", "9", "16", "2", "13", "8", "1"},
+       {"15", "2", "15", "2", "15", "2", "15", "2"},
+       {"15", "1", "8", "13", "2", "16", "9", "4"},
+       {"15", "9", "2", "8", "15", "9", "2", "8"},
+       {"15", "13", "9", "1", "2", "4", "8", "16"}
+      },
+      GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+      GridBoxSpacings->{"Columns" -> {
+          Offset[0.27999999999999997`], {
+           Offset[0.7]}, 
+          Offset[0.27999999999999997`]}, "Rows" -> {
+          Offset[0.2], {
+           Offset[0.4]}, 
+          Offset[0.2]}}], "\[NoBreak]", ")"}],
+    Function[BoxForm`e$, 
+     MatrixForm[BoxForm`e$]]]}],
+  SequenceForm["La matriz inversa es:", 
+   MatrixForm[{{15, 15, 15, 15, 15, 15, 15, 15}, {15, 16, 8, 4, 2, 1, 9, 
+    13}, {15, 8, 2, 9, 15, 8, 2, 9}, {15, 4, 9, 16, 2, 13, 8, 1}, {15, 2, 15, 
+    2, 15, 2, 15, 2}, {15, 1, 8, 13, 2, 16, 9, 4}, {15, 9, 2, 8, 15, 9, 2, 
+    8}, {15, 13, 9, 1, 2, 4, 8, 16}}]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.797787761104454*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"d61522f1-3684-4dee-8f42-f61535f20f8c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"El polinomio multiplicado es: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"1", "+", 
+    RowBox[{"4", " ", "x"}], "+", 
+    SuperscriptBox["x", "2"], "+", 
+    RowBox[{"7", " ", 
+     SuperscriptBox["x", "3"]}], "+", 
+    RowBox[{"9", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    RowBox[{"8", " ", 
+     SuperscriptBox["x", "5"]}], "+", 
+    RowBox[{"3", " ", 
+     SuperscriptBox["x", "6"]}], "+", 
+    RowBox[{"15", " ", 
+     SuperscriptBox["x", "7"]}]}]}],
+  SequenceForm[
+  "El polinomio multiplicado es: ", 1 + 4 $CellContext`x + $CellContext`x^2 + 
+   7 $CellContext`x^3 + 9 $CellContext`x^4 + 8 $CellContext`x^5 + 
+   3 $CellContext`x^6 + 15 $CellContext`x^7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.7977870313339443`*^9, 3.7977872100371947`*^9}, {
+   3.79778726590771*^9, 3.7977873970440226`*^9}, 3.7977874527337255`*^9, 
+   3.7977875054920316`*^9, 3.7977875727166834`*^9, 3.797787761104454*^9},
+ CellLabel->
+  "During evaluation of \
+In[69]:=",ExpressionUUID->"ff997bb7-5fa0-4999-8b16-472c50ebdb41"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{863, 771},
+WindowMargins->{{Automatic, 217}, {Automatic, 0}},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1997, 61, 162, "Input",ExpressionUUID->"a0b41ce7-ecec-4a1a-8255-6a88be7c5dfd"],
+Cell[2558, 83, 2025, 53, 219, "Input",ExpressionUUID->"4f228da4-7960-4738-93f0-1fa6cf21c2a8"],
+Cell[4586, 138, 1352, 42, 67, "Input",ExpressionUUID->"a08ab046-ccaa-4d10-8368-d60b51249e7e"],
+Cell[5941, 182, 663, 15, 28, "Input",ExpressionUUID->"a538e5f1-bad0-40a4-99fe-b13149c5f1b2"],
+Cell[6607, 199, 4938, 113, 466, "Input",ExpressionUUID->"598330f4-1ce3-4b69-9317-170e9cf00ccf"],
+Cell[CellGroupData[{
+Cell[11570, 316, 823, 21, 28, "Input",ExpressionUUID->"e4eddb0c-0bb5-4721-9f27-bf07163fd278"],
+Cell[CellGroupData[{
+Cell[12418, 341, 600, 11, 22, "Print",ExpressionUUID->"11347834-27ec-4fea-bb7d-50b002ae0be5"],
+Cell[13021, 354, 680, 15, 22, "Print",ExpressionUUID->"f87bbce9-db4c-4405-9661-29ac404e6af9"],
+Cell[13704, 371, 678, 15, 22, "Print",ExpressionUUID->"cf8a756b-8154-41d9-a1ec-6f02341f392f"],
+Cell[14385, 388, 688, 15, 22, "Print",ExpressionUUID->"140b1ba8-668b-4b61-885d-e0bcb0effe3b"],
+Cell[15076, 405, 1718, 36, 125, "Print",ExpressionUUID->"fad4b10a-aa27-4670-8a09-00e4470aed79"],
+Cell[16797, 443, 580, 11, 22, "Print",ExpressionUUID->"3b26bf36-4a04-4385-866f-4465df7a7424"],
+Cell[17380, 456, 1634, 35, 125, "Print",ExpressionUUID->"d61522f1-3684-4dee-8f42-f61535f20f8c"],
+Cell[19017, 493, 1071, 26, 24, "Print",ExpressionUUID->"ff997bb7-5fa0-4999-8b16-472c50ebdb41"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
